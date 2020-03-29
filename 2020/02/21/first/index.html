@@ -5,13 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>测试 - saskuras的秘密房间</title>
+    <title>sql注入 - saskuras的秘密房间</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="李敬钊,这是第一次测试
-"> 
+    <meta name="description" content="李敬钊,作为渗透初学者，第一篇文章大概都是关于sql注入的。注入前需要测试其闭合方式‘或“等闭合方式，在语句最后还需加入注释符，若注释符被过滤，可用and’1’=’1结尾。1.联合查询注入，即用union来,"> 
     <meta name="author" content="李"> 
     <link rel="alternative" href="atom.xml" title="saskuras的秘密房间" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -41,7 +40,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">测试</h3>
+    <h3 class="subtitle">sql注入</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -59,14 +58,16 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">测试</h1>
+        <h1 class="title">sql注入</h1>
         <div class="stuff">
             <span>二月 21, 2020</span>
             
 
         </div>
         <div class="content markdown">
-            <p>这是第一次测试</p>
+            <p>作为渗透初学者，第一篇文章大概都是关于sql注入的。<br>注入前需要测试其闭合方式‘或“等闭合方式，在语句最后还需加入注释符，若注释符被过滤，可用and’1’=’1结尾。<br>1.联合查询注入，即用union来连接查询语句进行注入，注入前需用order by 来检测可显字段数，payload为:<br>?id = 1’ and 1 = 2 union select 1,2,table_name from information_schema.tables where table_schema = database()–+</p>
+<p>2.报错注入，当网页有报错语句时，可用报错注入，payload为：<br>(updatexml(1,concat(0x7e,(查询语句),0x7e),1))或(extractvalue(1,concat(0x7e,(查询语句),0x7e),1))<br>如果concat被过滤则使用make_set 。</p>
+<p>3.盲注，当网页无可显字段和报错信息时，即可使用盲注，盲注步骤为步骤<br>(1) 看是否有注入点，判断 整型还是字符串<br>（2）判断查找的数据库的长度<br>（3） 根据ascii（）函数  得出库名<br>（4） 查找库，判断库的长度 ， 根据ascii（） 得出表名<br>（5） 判断表名的长度，根据ascii（） 得出列名<br>paylod为ascii(substr((select table_name information_schema.tables where tables_schema=database()limit 0,1),1,1))=101 –+<br>substr(a,b,c)从b位置开始，截取字符串a的c长度。Ascii()将某个字符转换为ascii值，最后的等于即判断所转化的字符的ascii码与自己<br>测试的是否一样，看网页是否能正常显示。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
